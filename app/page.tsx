@@ -1,11 +1,9 @@
-import Image from "next/image";
+import Input from "@/src/components/forms/input"
 
 export default function Home() {
   return (
-    <main className="flex flex-row justify-center">
-      <div className="container bg-slate-400 w-full max-w-md">
-
-      </div>
+    <main className="flex flex-row justify-center items-center h-full">
+      
     </main>
   );
 }
