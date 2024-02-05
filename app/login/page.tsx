@@ -4,7 +4,9 @@ import AlertDismiss, { AlertType } from "@/src/components/alerts/dismiss";
 import GoogleLogin from "@/src/components/forms/google-login";
 import Input from "@/src/components/forms/input";
 import FormLogo from "@/src/components/logos/form-logo";
+import userLogin, { SuccessLoginResponse } from "@/src/fetcher/login";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 
 export default function Signup(){
@@ -14,31 +16,26 @@ export default function Signup(){
     const [alertType, setAlertType] = useState<AlertType>("info");
     const username = useRef<HTMLInputElement | null>(null);
     const password = useRef<HTMLInputElement | null>(null);
+    const router = useRouter()
+
+    const onSuccess = async (data: SuccessLoginResponse)=>{
+        switch (data.token_type){
+            case "Bearer":
+                router.push("/");
+        }
+    }
+
     const onSubmit = async (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         setIsLoading(true);
         try{
-            const resp = await fetch("/api/user/v1/func/user/login", {
-                method: "POST",
-                body: JSON.stringify({
-                    username: username.current?.value,
-                    password: password.current?.value,
-                })
-            })
-            const respJson = await resp.json();
-            if (resp.status == 200){
-                setMessage("Successfully Login");
+            const [statusCode, resp] = await userLogin(username.current?.value, password.current?.value)
+            if (statusCode != 200){
+                setMessage((resp as DefaultResponse).message);
                 setIsAlert(true);
-                setAlertType("info")
-            }else if (resp.status == 401){
-                setMessage(respJson["message"]);
-                setIsAlert(true);
-                setAlertType("error")
-            }else if (resp.status == 404){
-                setMessage(respJson["message"]);
-                setIsAlert(true);
-                setAlertType("error")
+                setAlertType("error");
             }
+            await onSuccess(resp as SuccessLoginResponse);
         }
         catch(e){
             setMessage("Error on connecting backend");
