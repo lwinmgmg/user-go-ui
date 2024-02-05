@@ -3,3 +3,8 @@ type DefaultResponse ={
     message: string,
     data: any
 };
+
+type SuccessAuthResponse = {
+    token_type: string,
+    access_token: string
+};

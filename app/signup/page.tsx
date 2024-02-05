@@ -5,8 +5,11 @@ import Link from "next/link";
 import GoogleSignup from "@/src/components/forms/google-signup";
 import { FormEvent, useRef, useState } from "react";
 import AlertDismiss, { AlertType } from "@/src/components/alerts/dismiss";
+import userSignup from "@/src/fetcher/signup";
 
-export default function Signup(){
+export default function Signup({searchParams}:{
+    searchParams: any
+}){
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isAlert, setIsAlert] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
@@ -31,25 +34,14 @@ export default function Signup(){
             return
         }
         try{
-            const formData = new FormData()
-            formData.append("username", username.current?.value || "")
-            formData.append("password", password.current?.value || "")
-            formData.append("email", email.current?.value || "")
-            formData.append("username", username.current?.value || "")
-            formData.append("phone", phone.current?.value || "")
-            formData.append("firstname", firstname.current?.value || "")
-            formData.append("lastname", lastname.current?.value || "")
-            const resp = await fetch("/api/user/v1/func/user/signup", {
-                method: "POST",
-                body: formData
-            })
-            const respJson = await resp.json();
-            if (resp.status == 200){
+            const [statusCode, resp] = await userSignup(firstname.current?.value, lastname.current?.value,
+                username.current?.value, password.current?.value, email.current?.value, phone.current?.value);
+            if (statusCode == 200){
                 setMessage("Successfully Signup");
                 setIsAlert(true);
                 setAlertType("info")
             }else{
-                setMessage(respJson["message"] || "Internal Server Error");
+                setMessage((resp as DefaultResponse).message || "Internal Server Error");
                 setIsAlert(true);
                 setAlertType("error")
             }
@@ -58,7 +50,7 @@ export default function Signup(){
         }
     }
     return (
-        <main className="flex flex-row justify-center items-center h-full">
+        <div className="flex flex-row justify-center items-center h-full">
             <form className="container border rounded-md w-full max-w-md flex flex-col p-5 space-y-2" onSubmit={onSubmit}>
                 <div className="h-5"></div>
                 <FormLogo/>
@@ -90,13 +82,13 @@ export default function Signup(){
                 </div>
                 <div className="h-1"></div>
                 <p className="text-xs text-slate-600">By creating an account, you agree to the Terms of use and Privacy Policy</p>
-                <button className="btn-primary">Sign Up</button>
-                <p className="text-sm text-slate-600">If you already have an account, please login <Link href="/login" className="text-blue-400">here</Link></p>
+                <button className="btn-primary">{isLoading ? "Signing Up...":"Sign Up"}</button>
+                <p className="text-sm text-slate-600">If you already have an account, please login <Link href={{ pathname: '/login', query: searchParams }} className="text-blue-400">here</Link></p>
                 <p className="text-center text-sm font-bold">Or</p>
                 <GoogleSignup />
                 <div className="h-5"></div>
             </form>
             <AlertDismiss show={isAlert} setShow={setIsAlert} type={alertType}>{message}</AlertDismiss>
-        </main>
+        </div>
     );
 }
