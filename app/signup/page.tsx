@@ -6,6 +6,8 @@ import GoogleSignup from "@/src/components/forms/google-signup";
 import { FormEvent, useRef, useState } from "react";
 import AlertDismiss, { AlertType } from "@/src/components/alerts/dismiss";
 import userSignup from "@/src/fetcher/signup";
+import onSuccess from "@/src/auth/user-auth";
+import { useRouter } from "next/navigation";
 
 export default function Signup({searchParams}:{
     searchParams: any
@@ -23,6 +25,8 @@ export default function Signup({searchParams}:{
     const password = useRef<HTMLInputElement | null>(null);
     const confirmPassword = useRef<HTMLInputElement | null>(null);
 
+    const router = useRouter();
+
     const onSubmit = async (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         setIsLoading(true);
@@ -39,7 +43,9 @@ export default function Signup({searchParams}:{
             if (statusCode == 200){
                 setMessage("Successfully Signup");
                 setIsAlert(true);
-                setAlertType("info")
+                setAlertType("info");
+                console.log(resp);
+                onSuccess(resp as SuccessAuthResponse, router, searchParams)
             }else{
                 setMessage((resp as DefaultResponse).message || "Internal Server Error");
                 setIsAlert(true);
@@ -50,7 +56,7 @@ export default function Signup({searchParams}:{
         }
     }
     return (
-        <div className="flex flex-row justify-center items-center h-full">
+        <div className="flex flex-col justify-center items-center my-auto h-full">
             <form className="container border rounded-md w-full max-w-md flex flex-col p-5 space-y-2" onSubmit={onSubmit}>
                 <div className="h-5"></div>
                 <FormLogo/>

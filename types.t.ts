@@ -6,5 +6,6 @@ type DefaultResponse ={
 
 type SuccessAuthResponse = {
     token_type: string,
-    access_token: string
+    access_token: string,
+    user_id: string
 };

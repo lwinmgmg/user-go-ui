@@ -19,7 +19,7 @@ export default function Login({searchParams}:{
     const [alertType, setAlertType] = useState<AlertType>("info");
     const username = useRef<HTMLInputElement | null>(null);
     const password = useRef<HTMLInputElement | null>(null);
-    const router = useRouter()
+    const router = useRouter();
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
@@ -42,7 +42,7 @@ export default function Login({searchParams}:{
         }
     }
     return (
-        <div className="flex flex-row justify-center items-center h-full">
+        <div className="flex flex-col justify-center items-center my-auto h-full">
             <form className="container border rounded-md w-full max-w-md flex flex-col p-5 space-y-2" onSubmit={onSubmit}>
                 <div className="h-5"></div>
                 <FormLogo />

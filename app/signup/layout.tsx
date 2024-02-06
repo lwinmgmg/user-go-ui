@@ -11,7 +11,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <main>
+        <main className="h-full">
             {children}
         </main>
     );
