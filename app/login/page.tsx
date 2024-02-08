@@ -46,18 +46,20 @@ export default function Login({searchParams}:{
             <form className="container border rounded-md w-full max-w-md flex flex-col p-5 space-y-2" onSubmit={onSubmit}>
                 <div className="h-5"></div>
                 <FormLogo />
+                <p className="font-semibold text-slate-600 text-sm text-center">User Login Form</p>
                 <div className="h-3"></div>
                 <div>
                     <Input innerRef={username} label="Username" placeHolder="Username or Email" />
                 </div>
                 <div>
-                    <Input innerRef={password} placeHolder="Password" type="password" label="Password" />
+                    <Input innerRef={password} placeHolder="Password" type="password" label="Password" autoComplete="current-password" />
                 </div>
                 <div className="h-1"></div>
                 <button className="btn-primary shadow-sm hover:shadow-lg">{isLoading?"Logging in...":"Login"}</button>
                 <p className="text-sm text-slate-600">If you don't have an account, please Signup <Link href={{ pathname: '/signup', query: searchParams }} className="text-blue-400">here</Link></p>
                 <p className="text-center text-sm font-bold">Or</p>
                 <GoogleLogin />
+                <Link className="btn-secondary shadow-sm hover:shadow-lg text-center" href={{ pathname: '/accounts', query: searchParams }}>Back to my accounts</Link>
                 <div className="h-5"></div>
             </form>
             <AlertDismiss show={isAlert} setShow={setIsAlert} type={alertType}>{message}</AlertDismiss>

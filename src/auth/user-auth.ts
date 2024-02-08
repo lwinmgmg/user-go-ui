@@ -2,6 +2,7 @@
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { setActiveUser, setAuthCookie } from "../cookies/auth-cookies";
+import { getActiveOtp, setActiveOtp } from "../cookies/otp-cookies";
 
 export default async function onSuccess(data: SuccessAuthResponse, router: AppRouterInstance, searchParams: {}){
     const params = new URLSearchParams(searchParams);
@@ -10,5 +11,10 @@ export default async function onSuccess(data: SuccessAuthResponse, router: AppRo
             router.push("/accounts" + "?" + params.toString());
             setAuthCookie(data);
             setActiveUser(data.user_id);
+            break
+        case "Otp":
+            router.push("/otp" + "?" + params.toString());
+            setActiveOtp(data.user_id, data);
+            break
     }
 }
