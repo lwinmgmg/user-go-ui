@@ -14,7 +14,7 @@ export default async function onSuccess(data: SuccessAuthResponse, router: AppRo
             break
         case "Otp":
             router.push("/otp" + "?" + params.toString());
-            setActiveOtp(data.user_id, data);
+            setActiveOtp([data, "1"]);
             break
     }
 }
