@@ -60,7 +60,7 @@ export default function Signup({searchParams}:{
                 <FormLogo/>
                 <p className="font-semibold text-slate-600 text-sm text-center">User Sign Up Form</p>
                 <div className="h-3"></div>
-                <div className="flex flex-row justify-evenly space-x-1">
+                <div className="flex flex-row justify-between space-x-1">
                     <div>
                         <Input innerRef={firstname} placeHolder="First Name" label="First Name" required/>
                     </div>
@@ -77,7 +77,7 @@ export default function Signup({searchParams}:{
                 <div>
                     <Input innerRef={username} label="Username" placeHolder="username" required/>
                 </div>
-                <div className="flex flex-row justify-evenly space-x-1">
+                <div className="flex flex-row justify-between space-x-1">
                     <div>
                         <Input innerRef={password} placeHolder="Password" type="password" label="Password" autoComplete="new-password" required/>
                     </div>

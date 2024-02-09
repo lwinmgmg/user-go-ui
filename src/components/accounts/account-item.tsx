@@ -1,7 +1,8 @@
 "use client";
 
-import { getTokenByUserId, removeTokenByUserId, removeUserFromList } from "@/src/cookies/auth-cookies";
+import { getTokenByUserId, removeTokenByUserId, removeUserFromList, setActiveUser } from "@/src/cookies/auth-cookies";
 import getProfile, { UserInfo } from "@/src/fetcher/get-profile";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const defaultAvatar = "https://i.imgur.com/WxNkK7J.png";
@@ -15,6 +16,7 @@ export default function AccountItem({
     removeUser: (userCode: string)=>void
 }){
     const [user, setUser] = useState<UserInfo>();
+    const router = useRouter();
 
     useEffect(()=>{
         const token = getTokenByUserId(userId);
@@ -34,9 +36,14 @@ export default function AccountItem({
         removeUser(userId);
     }
 
+    const onSelect = ()=>{
+        setActiveUser(userId);
+        router.push("/profile");
+    }
+
     return user ? (
         <div className="flex flex-row items-center justify-between">
-            <button className="h-20 grow rounded-s-lg flex flex-row items-center px-5 cursor-pointer hover:bg-slate-200 focus:bg-slate-300">
+            <button onClick={onSelect} className="h-20 grow rounded-s-lg flex flex-row items-center px-5 cursor-pointer hover:bg-slate-200 focus:bg-slate-300">
                 <div className="h-16 w-16 ring-1 rounded-full" style={{
                     backgroundImage: `url(${user.img_url == "" || user.img_url == undefined ? defaultAvatar : user.img_url})`,
                     backgroundSize: "cover",
