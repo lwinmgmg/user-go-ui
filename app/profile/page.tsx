@@ -4,6 +4,7 @@ import { getActiveUser, getTokenByUserId } from "@/src/cookies/auth-cookies";
 import { setActiveOtp } from "@/src/cookies/otp-cookies";
 import emailConfirm from "@/src/fetcher/email-confirm";
 import enable2Fa from "@/src/fetcher/enable-2fa";
+import enableAuth from "@/src/fetcher/enable-auth";
 import getProfileDetail, { UserDetail } from "@/src/fetcher/get-profile-detail";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -44,6 +45,13 @@ export default function Profile({searchParams}:{
         var [statusCode, resp] = await enable2Fa(token);
         if (statusCode === 200){
             setActiveOtp([resp as SuccessAuthResponse, "2"]);
+            router.push("/otp");
+        }
+    }
+    const onEnableAuth = async ()=>{
+        var [statusCode, resp] = await enableAuth(token);
+        if (statusCode === 200){
+            setActiveOtp([resp as SuccessAuthResponse, "3"]);
             router.push("/otp");
         }
     }
@@ -151,7 +159,7 @@ export default function Profile({searchParams}:{
                     <div>
                         <p className="text-sm"><span className="font-bold">Is Enabled Authenticator? : </span>{isAuth ? "Yes" : "No"}</p>
                         {
-                            isAuth ? null:(<button onClick={onEnable2Fa} className="btn-primary">Enable Authenticator</button>)
+                            isAuth ? null:(<button onClick={onEnableAuth} className="btn-primary">Enable Authenticator</button>)
                         }
                     </div>
                 </div>

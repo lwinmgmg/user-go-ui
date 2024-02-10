@@ -4,7 +4,8 @@ import onSuccess from "@/src/auth/user-auth";
 import AlertDismiss, { AlertType } from "@/src/components/alerts/dismiss";
 import Input from "@/src/components/forms/input";
 import FormLogo from "@/src/components/logos/form-logo";
-import { getActiveOtp } from "@/src/cookies/otp-cookies";
+import { getActiveOtp, removeActiveOtp } from "@/src/cookies/otp-cookies";
+import { AuthenticatorResponse } from "@/src/fetcher/enable-auth";
 import otpAuth from "@/src/fetcher/otp-auth";
 import { useRouter } from "next/navigation";
 import {useEffect, useRef, useState } from "react";
@@ -24,12 +25,13 @@ export default function Otp({params: {}, searchParams}:{
     const formRef = useRef<HTMLFormElement | null>(null);
     const passCode = useRef<HTMLInputElement | null>(null);
     const [tOut, setTOut] = useState(OTP_TIMEOUT);
-    const [otp, setOtp] = useState<SuccessAuthResponse | null>(null);
+    const [otp, setOtp] = useState<SuccessAuthResponse | AuthenticatorResponse | null>(null);
     const [otpType, setOtpType] = useState<string>("");
     const router = useRouter();
 
     useEffect(()=>{
         const otpData = getActiveOtp();
+        console.log(otpData);
         if (!otpData){
             router.back();
             return
@@ -39,7 +41,7 @@ export default function Otp({params: {}, searchParams}:{
         const start = setInterval(()=>{
             setTOut(res=>res > 0 ? res - 1 : 0);
         }, 1000);
-        return () => clearTimeout(start);
+        return () => clearTimeout(start)
     }, [router])
 
     const onConfirm = async ()=>{
@@ -86,6 +88,18 @@ export default function Otp({params: {}, searchParams}:{
                 <div className="h-5"></div>
                 <FormLogo/>
                 <p className="font-semibold text-slate-600 text-sm text-center">Otp Auth Form</p>
+                {
+                    otp && (otp as AuthenticatorResponse).image ? (
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="h-52 w-52" style={{
+                            backgroundImage: `url(data:image/png;base64,${(otp as AuthenticatorResponse).image})`,
+                            backgroundSize: "cover",
+                            backgroundRepeat: "no-repeat",
+                            }}>
+                        </div>
+                        <p>{(otp as AuthenticatorResponse).key}</p>
+                    </div>):null
+                }
                 <form ref={formRef}>
                     <Input innerRef={passCode} label="PassCode" pattern="^[0-9]{6}$" minLength={6} maxLength={6} type="text" placeHolder="eg. 000000" required/>
                 </form>

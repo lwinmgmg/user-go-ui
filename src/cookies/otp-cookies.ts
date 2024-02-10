@@ -18,3 +18,8 @@ export function getActiveOtp(): [SuccessAuthResponse, string] | null {
     }
     return null
 }
+
+export function removeActiveOtp(){
+    const cookie = new Cookies();
+    cookie.remove(OTP_KEY);
+}
