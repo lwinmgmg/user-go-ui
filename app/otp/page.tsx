@@ -31,7 +31,6 @@ export default function Otp({params: {}, searchParams}:{
 
     useEffect(()=>{
         const otpData = getActiveOtp();
-        console.log(otpData);
         if (!otpData){
             router.back();
             return
@@ -67,6 +66,10 @@ export default function Otp({params: {}, searchParams}:{
             }finally{
                 setIsLoading(false);
             }
+        }else{
+            setMessage("Invalid Passcode");
+            setAlertType("error");
+            setIsAlert(true);
         }
     }
     const onResent = ()=>{

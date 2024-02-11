@@ -6,6 +6,7 @@ import emailConfirm from "@/src/fetcher/email-confirm";
 import enable2Fa from "@/src/fetcher/enable-2fa";
 import enableAuth from "@/src/fetcher/enable-auth";
 import getProfileDetail, { UserDetail } from "@/src/fetcher/get-profile-detail";
+import phoneConfirm from "@/src/fetcher/phone-confirm";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,6 +42,13 @@ export default function Profile({searchParams}:{
             router.push("/otp");
         }
     }
+    const onConfirmPhone = async ()=>{
+        var [statusCode, resp] = await phoneConfirm(token);
+        if (statusCode === 200){
+            setActiveOtp([resp as SuccessAuthResponse, "3"]);
+            router.push("/otp");
+        }
+    }
     const onEnable2Fa = async ()=>{
         var [statusCode, resp] = await enable2Fa(token);
         if (statusCode === 200){
@@ -51,7 +59,7 @@ export default function Profile({searchParams}:{
     const onEnableAuth = async ()=>{
         var [statusCode, resp] = await enableAuth(token);
         if (statusCode === 200){
-            setActiveOtp([resp as SuccessAuthResponse, "3"]);
+            setActiveOtp([resp as SuccessAuthResponse, "4"]);
             router.push("/otp");
         }
     }
@@ -147,7 +155,7 @@ export default function Profile({searchParams}:{
                     <div>
                         <p className="text-sm"><span className="font-bold">Phone Confirm Status : </span>{isPhone ? "Yes" : "No"}</p>
                         {
-                            isPhone ? null:(<button className="btn-primary">Confirm Phone</button>)
+                            isPhone ? null:(<button onClick={onConfirmPhone} className="btn-primary">Confirm Phone</button>)
                         }
                     </div>
                     <div>
