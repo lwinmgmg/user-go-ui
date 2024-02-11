@@ -4,6 +4,7 @@ export type AuthenticatorResponse = {
     user_id: string,
     key: string,
     image: string
+    sotp_type: ResendType
 }
 
 export default async function enableAuth(token: string) :Promise<[number, AuthenticatorResponse | DefaultResponse]>{
