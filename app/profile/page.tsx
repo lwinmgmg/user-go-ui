@@ -52,14 +52,14 @@ export default function Profile({searchParams}:{
     const onEnable2Fa = async ()=>{
         var [statusCode, resp] = await enable2Fa(token);
         if (statusCode === 200){
-            setActiveOtp([resp as SuccessAuthResponse, "2"]);
+            setActiveOtp([resp as SuccessAuthResponse, "4"]);
             router.push("/otp");
         }
     }
     const onEnableAuth = async ()=>{
         var [statusCode, resp] = await enableAuth(token);
         if (statusCode === 200){
-            setActiveOtp([resp as SuccessAuthResponse, "4"]);
+            setActiveOtp([resp as SuccessAuthResponse, "5"]);
             router.push("/otp");
         }
     }
