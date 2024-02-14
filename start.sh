@@ -1,2 +1,2 @@
-export USER_BACKEND=http://localhost:3001
+export USER_BACKEND=http://0.0.0.0:3001
 npm run dev

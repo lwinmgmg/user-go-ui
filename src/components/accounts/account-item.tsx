@@ -30,7 +30,7 @@ export default function AccountItem({
                 }
             }
         );
-    }, []);
+    }, [userId]);
 
     const logout = ()=>{
         removeUser(userId);

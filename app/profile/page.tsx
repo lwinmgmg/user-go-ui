@@ -87,7 +87,7 @@ export default function Profile({searchParams}:{
         }else{
             router.push("/accounts");
         }
-    }, []);
+    }, [router]);
     return (
         <div className="flex flex-col justify-center items-center my-auto h-full">
             <div className="w-full max-w-md text-center rounded-lg border flex flex-col items-center p-5">

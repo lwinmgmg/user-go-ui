@@ -1,0 +1,7 @@
+.next
+node_modules
+.env.local
+.dockerignore
+docker-compose.yaml
+Dockerfile
+start.sh

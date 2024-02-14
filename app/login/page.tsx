@@ -56,7 +56,7 @@ export default function Login({searchParams}:{
                 </div>
                 <div className="h-1"></div>
                 <button className="btn-primary shadow-sm hover:shadow-lg">{isLoading?"Logging in...":"Login"}</button>
-                <p className="text-sm text-slate-600">If you don't have an account, please Signup <Link href={{ pathname: '/signup', query: searchParams }} className="text-blue-400">here</Link></p>
+                <p className="text-sm text-slate-600">If you don&apos;t have an account, please Signup <Link href={{ pathname: '/signup', query: searchParams }} className="text-blue-400">here</Link></p>
                 <p className="text-center text-sm font-bold">Or</p>
                 <GoogleLogin />
                 <Link className="btn-secondary shadow-sm hover:shadow-lg text-center" href={{ pathname: '/accounts', query: searchParams }}>Back to my accounts</Link>

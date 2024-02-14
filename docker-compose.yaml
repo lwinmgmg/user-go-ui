@@ -1,0 +1,8 @@
+version: '3.0'
+services:
+  user-go-ui:
+    build: .
+    environment:
+      USER_BACKEND: http://10.4.2.108:3001
+    ports:
+      - "3000:3000"
