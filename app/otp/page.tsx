@@ -44,7 +44,6 @@ export default function Otp({params: {}, searchParams}:{
         const start = setInterval(()=>{
             setTOut(res=>res > 0 ? res - 1 : 0);
         }, 1000);
-        console.log(sendType);
         return () => clearTimeout(start)
     }, [router])
 
