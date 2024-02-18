@@ -12,7 +12,7 @@ import resendOtp, { OtpResendResp } from "@/src/fetcher/resend-otp";
 import { useRouter } from "next/navigation";
 import {ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
-const OTP_TIMEOUT = 5;
+const OTP_TIMEOUT = 60;
 
 export default function Otp({params: {}, searchParams}:{
     params: {
